@@ -10,8 +10,8 @@ import cv2
 import numpy as np
 import time
 
-model = tf.keras.models.load_model('/home/adi/Moodify/static/vgg16.h5')
-face_cascade=cv2.CascadeClassifier("/home/adi/Moodify/static/haarcascade_frontalface_alt2.xml")
+model = tf.keras.models.load_model('C:/Users/adinc/Desktop/Moodify/static/vgg16.h5')
+face_cascade=cv2.CascadeClassifier("C:/Users/adinc/Desktop/Moodify/static/haarcascade_frontalface_alt2.xml")
 ds_factor=0.6
 
 class VideoCamera(object):
