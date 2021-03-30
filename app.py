@@ -10,17 +10,20 @@ import spotipy.util as util
 
 import random
 import requests
+import threading
+from datetime import datetime
+import time
 
 from moodtape_functions import authenticate_spotify, aggregate_top_artists, aggregate_top_tracks, select_tracks, \
 	create_playlist
 
-client_id =  "0825da0780ca4eb1903d85a94948990d"
-client_secret = "31ee017c7d9645dd811266441e1ca2f3"
-redirect_uri = "https://localhost:8008/"
+client_id =  "90c5a03461c14d71a5202188699e07d3"
+client_secret = "6e26f1a4c8594919b098ab10701c3c46"
+redirect_uri = "http://127.0.0.1:5000/"
 
 scope = 'user-library-read user-top-read playlist-modify-public user-follow-read'
 
-username = "ádi45"
+username = "Vignesh"
 token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri)
 
 app = Flask(__name__)
@@ -71,7 +74,7 @@ def gen(camera):
 		else:
 
 			frame = cv2.GaussianBlur(frame,(47,47),cv2.BORDER_DEFAULT)
-			frame = cv2.putText(frame, 'Done!', (120,170), cv2.FONT_HERSHEY_SIMPLEX ,
+			frame = cv2.putText(frame, 'Done!', (150,170), cv2.FONT_HERSHEY_SIMPLEX ,
 								2, (170,205,254), 4, cv2.LINE_AA)
 
 			ret, jpeg = cv2.imencode('.jpg', frame)
@@ -85,21 +88,17 @@ def gen(camera):
 
 
 
+
 		yield (b'--frame\r\n'
 			   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-
-
+	
 
 
 @app.route('/video_feed')
-def video_feed():
-	global confirm
-
-
-
+def send_frames():
 	return Response(gen(VideoCamera()),
 					mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 
 @app.route('/cam')

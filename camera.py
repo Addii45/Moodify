@@ -10,8 +10,8 @@ import cv2
 import numpy as np
 import time
 
-model = tf.keras.models.load_model('C:/Users/adinc/Desktop/Moodify/static/vgg16.h5')
-face_cascade=cv2.CascadeClassifier("C:/Users/adinc/Desktop/Moodify/static/haarcascade_frontalface_alt2.xml")
+model = tf.keras.models.load_model('D:\Moodify\static\VGG_3CLASSES.h5')
+face_cascade=cv2.CascadeClassifier("D:\Moodify\static\haarcascade_frontalface_alt2.xml")
 ds_factor=0.6
 
 class VideoCamera(object):
@@ -31,8 +31,9 @@ class VideoCamera(object):
 
     def get_frame(self):
         class_name = ['Happy', 'Neutral', 'Sad']
-        success, pic = self.video.read()
-        #pic=cv2.resize(pic,None,fx=ds_factor,fy=ds_factor,interpolation=cv2.INTER_AREA)
+        success, pic = self.video.read()        
+        pic=cv2.resize(pic,None,fx=ds_factor,fy=ds_factor,interpolation=cv2.INTER_AREA)
+        print('checkpoint1',success)
 
 
         gray=cv2.cvtColor(pic,cv2.COLOR_BGR2GRAY)
@@ -41,23 +42,13 @@ class VideoCamera(object):
         face_rects=face_cascade.detectMultiScale(gray,1.3,5)
         img=pic.copy()
         for (x,y,w,h) in face_rects:
-            img=img[y-10:y+h+10,x-10:x+w+10]
+            img=img[y:y+h,x:x+w]
             break
         #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 
-
-
-
-
-
-
-
-
-
-
         path="static\\img.png"
-        resized = cv2.resize(img, (48, 48), interpolation=cv2.INTER_AREA)
+        resized = cv2.resize(img, (48,48), interpolation=cv2.INTER_AREA)
         resized = resized / 255
         cv2.imwrite('static\\img.png', resized)
 
@@ -71,7 +62,8 @@ class VideoCamera(object):
         classes = model.predict(images)
         print(classes[0])
         idx = np.argmax(classes[0])
-        mood=class_name[idx]
+        print('checkpoint2')
+        mood=class_name[idx]        
         print(class_name[idx])
 
 
