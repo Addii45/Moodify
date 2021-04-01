@@ -18,7 +18,7 @@ from moodtape_functions import authenticate_spotify, aggregate_top_artists, aggr
 	create_playlist
 
 client_id =  "90c5a03461c14d71a5202188699e07d3"
-client_secret = "6e26f1a4c8594919b098ab10701c3c46"
+client_secret = "93a22a9dff02491fb187e87ccbea3d34"
 redirect_uri = "http://127.0.0.1:5000/"
 
 scope = 'user-library-read user-top-read playlist-modify-public user-follow-read'
@@ -50,11 +50,6 @@ def gen(camera):
 
 	while True:
 		frame,mood = camera.get_frame()
-
-
-
-
-
 		if(confirm!=1):
 
 			check(mood)
